@@ -20,7 +20,11 @@ grammar TodoistQuery
   end
 
   rule query_part
-    literal_query / n_days_query / priority_query / project_name_query / label_query / no_labels_query
+    negated_part / literal_query / n_days_query / priority_query / project_name_query / label_query / no_labels_query
+  end
+
+  rule negated_part
+    '!' query_part <NegatedQuery>
   end
 
   rule literal_query

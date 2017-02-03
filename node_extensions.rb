@@ -29,4 +29,7 @@ module TodoistQuery
   class NoLabelsQuery < Treetop::Runtime::SyntaxNode
   end
 
+  class NegatedQuery < Treetop::Runtime::SyntaxNode
+  end
+
 end

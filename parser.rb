@@ -28,4 +28,5 @@ end
 #puts Parser.parse("overdue")
 #dump_tree 0, Parser.parse("today | today & p1 | 4 days")
 #dump_tree 0, Parser.parse("@foobar")
-dump_tree 0, Parser.parse("no labels")
+#dump_tree 0, Parser.parse("no labels")
+dump_tree 0, Parser.parse("7 days & !@home")
