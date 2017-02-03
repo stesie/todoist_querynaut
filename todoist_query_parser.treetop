@@ -1,0 +1,42 @@
+grammar TodoistQuery
+  rule query
+    space? expression space? <QueryExpression>
+  end
+
+  rule sub_expression
+    space? '(' expression ')' space? <QueryExpression>
+  end
+
+  rule expression
+    sub_expression / union / intersection / query_part
+  end
+
+  rule union
+    (space? (sub_expression / intersection / query_part) space? '|')+ space? expression space? <Union>
+  end
+
+  rule intersection
+    (space? (sub_expression / query_part) space? '&')+ space? expression space? <Intersection>
+  end
+
+  rule query_part
+    literal_query / n_days_query / priority_query
+  end
+
+  rule literal_query
+    'over due' / 'overdue' / 'today' / 'tomorrow' <LiteralQuery>
+  end
+
+  rule n_days_query
+    [0-9]+ space "days" <NDaysQuery>
+  end
+
+  rule priority_query
+    ('p' / ('priority' space)) [1-4]  <PriorityQuery>
+  end
+
+  rule space
+    [\s]+
+  end
+
+end
