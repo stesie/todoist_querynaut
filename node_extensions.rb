@@ -20,4 +20,13 @@ module TodoistQuery
   class PriorityQuery < Treetop::Runtime::SyntaxNode
   end
 
+  class ProjectNameQuery < Treetop::Runtime::SyntaxNode
+  end
+
+  class LabelQuery < Treetop::Runtime::SyntaxNode
+  end
+
+  class NoLabelsQuery < Treetop::Runtime::SyntaxNode
+  end
+
 end

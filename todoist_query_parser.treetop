@@ -20,11 +20,11 @@ grammar TodoistQuery
   end
 
   rule query_part
-    literal_query / n_days_query / priority_query
+    literal_query / n_days_query / priority_query / project_name_query / label_query / no_labels_query
   end
 
   rule literal_query
-    'over due' / 'overdue' / 'today' / 'tomorrow' <LiteralQuery>
+    'over due' / 'overdue' / 'today' / 'tomorrow' / 'view all' <LiteralQuery>
   end
 
   rule n_days_query
@@ -33,6 +33,18 @@ grammar TodoistQuery
 
   rule priority_query
     ('p' / ('priority' space)) [1-4]  <PriorityQuery>
+  end
+
+  rule project_name_query
+    'p:' [^\s]+ <ProjectNameQuery>
+  end
+
+  rule label_query
+    '@' [^\s]+ <LabelQuery>
+  end
+
+  rule no_labels_query
+    'no labels' <NoLabelsQuery>
   end
 
   rule space
