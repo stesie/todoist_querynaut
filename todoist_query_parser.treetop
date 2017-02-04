@@ -4,11 +4,12 @@ grammar TodoistQuery
   end
 
   rule sub_expression
-    space? '(' expression ')' space? <QueryExpression>
+    space? '(' expression ')' space? #<QueryExpression>
   end
 
   rule expression
-    sub_expression / union / intersection / query_part
+    #sub_expression / union / intersection / query_part
+    union / intersection / sub_expression / query_part
   end
 
   rule union
@@ -28,7 +29,7 @@ grammar TodoistQuery
   end
 
   rule literal_query
-    'over due' / 'overdue' / 'today' / 'tomorrow' / 'view all' <LiteralQuery>
+    'over due' <LiteralQuery> / 'overdue' <LiteralQuery> / 'today' <LiteralQuery> / 'tomorrow' <LiteralQuery> / 'view all' <LiteralQuery>
   end
 
   rule n_days_query
@@ -44,7 +45,7 @@ grammar TodoistQuery
   end
 
   rule label_query
-    '@' [^\s]+ <LabelQuery>
+    '@' [\w]+ <LabelQuery>
   end
 
   rule no_labels_query
