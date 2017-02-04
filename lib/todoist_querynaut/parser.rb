@@ -26,7 +26,7 @@ module TodoistQuerynaut
       else
 	if !node.elements.nil?
 	  node.elements.replace node.elements.map{|n| self.clean_tree n}.flatten(1)
-	  return node.elements[0] if node.elements.length == 1
+	  return node.elements[0] if node.elements.length == 1 && (node.is_a?(TodoistQuery::Union) || node.is_a?(TodoistQuery::Intersection))
 	end
 	return node
       end
