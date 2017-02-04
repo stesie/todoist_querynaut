@@ -1,23 +1,14 @@
 grammar TodoistQuery
-  rule query
-    space? expression space? <QueryExpression>
-  end
-
-  rule sub_expression
-    space? '(' expression ')' space? #<QueryExpression>
-  end
-
-  rule expression
-    #sub_expression / union / intersection / query_part
-    union / intersection / sub_expression / query_part
-  end
-
   rule union
-    (space? (sub_expression / intersection / query_part) space? '|')+ space? expression space? <Union>
+    intersection ( '|' intersection )*  <Union>
   end
 
   rule intersection
-    (space? (sub_expression / query_part) space? '&')+ space? expression space? <Intersection>
+    primary ( '&' primary )*  <Intersection>
+  end
+
+  rule primary
+    space? ( '(' union ')' / query_part ) space?
   end
 
   rule query_part
@@ -55,5 +46,4 @@ grammar TodoistQuery
   rule space
     [\s]+
   end
-
 end
