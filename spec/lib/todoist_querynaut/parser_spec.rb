@@ -36,4 +36,13 @@ describe "#parse" do
     end
   end
 
+  describe "n-days queries" do
+    it "should parse '4 days'" do
+      tree = TodoistQuerynaut::Parser.parse("4 days")
+      expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::NDaysQuery)
+      expect(tree.days).to eq(4)
+    end
+  end
+
+
 end

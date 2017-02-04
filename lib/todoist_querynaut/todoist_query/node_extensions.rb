@@ -10,6 +10,11 @@ module TodoistQuerynaut
     end
 
     class NDaysQuery < Treetop::Runtime::SyntaxNode
+      attr_reader :days
+      def initialize(input, interval, elements = nil)
+	super
+	@days = elements[0].input.to_i
+      end
     end
 
     class PriorityQuery < Treetop::Runtime::SyntaxNode
