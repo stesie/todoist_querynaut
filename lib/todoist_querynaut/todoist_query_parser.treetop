@@ -1,0 +1,51 @@
+module TodoistQuerynaut
+  grammar TodoistQuery
+    rule union
+      intersection ( '|' intersection )*  <Union>
+    end
+
+    rule intersection
+      primary ( '&' primary )*  <Intersection>
+    end
+
+    rule primary
+      space? ( '(' union ')' / query_part ) space?
+    end
+
+    rule query_part
+      negated_part / literal_query / n_days_query / priority_query / project_name_query / label_query / no_labels_query
+    end
+
+    rule negated_part
+      '!' query_part <NegatedQuery>
+    end
+
+    rule literal_query
+      'over due' <LiteralQuery> / 'overdue' <LiteralQuery> / 'today' <LiteralQuery> / 'tomorrow' <LiteralQuery> / 'view all' <LiteralQuery>
+    end
+
+    rule n_days_query
+      [0-9]+ space "days" <NDaysQuery>
+    end
+
+    rule priority_query
+      ('p' / ('priority' space)) [1-4]  <PriorityQuery>
+    end
+
+    rule project_name_query
+      'p:' [^\s]+ <ProjectNameQuery>
+    end
+
+    rule label_query
+      '@' [\w]+ <LabelQuery>
+    end
+
+    rule no_labels_query
+      'no labels' <NoLabelsQuery>
+    end
+
+    rule space
+      [\s]+
+    end
+  end
+end

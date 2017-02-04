@@ -1,0 +1,29 @@
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+Gem::Specification.new do |spec|
+  spec.name          = "todoist_querynaut"
+  spec.version       = '0.1'
+  spec.authors       = ["Stefan Siegl"]
+  spec.email         = ["stesie@brokenpipe.de"]
+
+  spec.summary       = %q{Todoist Query Language implementation}
+  spec.description   = %q{Todoist implements its filter and query language client side, this Gem reimplements the language features against Todoist's REST API.}
+
+  spec.homepage      = "https://github.com/stesie/todoist_querynaut"
+
+  spec.license       = "MIT"
+
+
+  spec.files         = Dir['LICENSE.txt', 'lib/**/*']
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.test_files    = Dir['spec/**/*.rb']
+  spec.require_paths = ["lib"]
+
+  spec.add_development_dependency "bundler", "~> 1.7"
+  spec.add_development_dependency "rake", "~> 10.0"
+
+  spec.add_runtime_dependency 'ruby-todoist-api', '~> 0.3'
+  spec.add_runtime_dependency 'treetop', '~> 1.6.8'
+end
