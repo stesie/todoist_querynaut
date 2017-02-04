@@ -32,6 +32,7 @@ class Parser
     else
       if !node.elements.nil?
 	node.elements.replace node.elements.map{|n| self.clean_tree n}.flatten(1)
+	return node.elements[0] if node.elements.length == 1
       end
       return node
     end
