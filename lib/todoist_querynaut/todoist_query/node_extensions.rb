@@ -11,6 +11,9 @@ module TodoistQuerynaut
     end
 
     class Union < SetExpressionNode
+      def run_query(todoist)
+        children.map{|child| child.run_query todoist}.flatten
+      end
     end
 
     class Intersection < SetExpressionNode
