@@ -17,7 +17,7 @@ module TodoistQuerynaut
     end
 
     rule negated_part
-      '!' query_part <NegatedQuery>
+      '!' query:query_part <NegatedQuery>
     end
 
     rule literal_query
@@ -25,15 +25,27 @@ module TodoistQuerynaut
     end
 
     rule n_days_query
-      [0-9]+ space "days" <NDaysQuery>
+      [0-9]+ space "days" <NDaysQuery> {
+        def value
+          input.to_i
+        end
+      }
     end
 
     rule priority_query
-      ('p' / ('priority' space)) [1-4]  <PriorityQuery>
+      ("priority" space / "p") [1-4] <PriorityQuery> {
+        def value
+          input[-1].to_i
+        end
+      }
     end
 
     rule project_name_query
-      'p:' [^\s]+ <ProjectNameQuery>
+      'p:' value:([\w]+) <ProjectNameQuery> {
+        def value
+          input[super.interval.min..-1]
+        end
+      }
     end
 
     rule label_query

@@ -19,7 +19,7 @@ module TodoistQuerynaut
     def self.clean_tree(node)
       if node.class.name == "Treetop::Runtime::SyntaxNode"
 	if node.elements.nil? || node.elements.length == 0
-	  return []
+	  return node.empty? ? [] : node
 	else
 	  return node.elements.map{|n| self.clean_tree n}.flatten(1)
 	end
