@@ -4,9 +4,9 @@ describe TodoistQuerynaut::Client do
   describe "#search" do
     it "delegates search query to todoist api and returns result" do
       todoist_api = double()
-      todoist_api.stub(:query) {
+      allow(todoist_api).to receive(:query) {
         query_obj = double()
-        query_obj.stub(:search) { |query|
+        allow(query_obj).to receive(:search) { |query|
           { query => Todoist::Result.new({ "query" => "foo", "data" => [ "content_here" ] }) }
         }
         query_obj
