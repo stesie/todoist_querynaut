@@ -27,7 +27,7 @@ module TodoistQuerynaut
     rule n_days_query
       [0-9]+ space "days" <NDaysQuery> {
         def value
-          input.to_i
+          text_value.to_i
         end
       }
     end
@@ -35,7 +35,7 @@ module TodoistQuerynaut
     rule priority_query
       ("priority" space / "p") [1-4] <PriorityQuery> {
         def value
-          input[-1].to_i
+          text_value[-1].to_i
         end
       }
     end
@@ -43,7 +43,7 @@ module TodoistQuerynaut
     rule project_name_query
       'p:' value:([\w]+) <ProjectNameQuery> {
         def value
-          input[super.interval.min..-1]
+          text_value[2..-1]
         end
       }
     end
@@ -51,7 +51,7 @@ module TodoistQuerynaut
     rule label_query
       '@' [\w]+ <LabelQuery> {
         def value
-          input[1..-1]
+          text_value[1..-1]
         end
       }
     end

@@ -7,6 +7,16 @@ describe "#parse" do
       expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery)
     end
 
+    it "should ignore trailing whitespace" do
+      tree = TodoistQuerynaut::Parser.parse("today  ")
+      expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery)
+    end
+
+    it "should ignore leading whitespace" do
+      tree = TodoistQuerynaut::Parser.parse("  today")
+      expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery)
+    end
+
     it "should parse 'tomorrow'" do
       tree = TodoistQuerynaut::Parser.parse("tomorrow")
       expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery)
@@ -107,5 +117,91 @@ describe "#parse" do
       tree = TodoistQuerynaut::Parser.parse("no labels")
       expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::NoLabelsQuery)
     end
+  end
+
+  describe "logical operations" do
+    describe "intersections" do
+      it "should support intersections of two labels'" do
+        tree = TodoistQuerynaut::Parser.parse("@foo & @bar")
+        expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Intersection)
+        expect(tree.children[0]).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
+        expect(tree.children[0].value).to eq("foo")
+        expect(tree.children[1]).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
+        expect(tree.children[1].value).to eq("bar")
+      end
+
+      it "should support intersections of two different query parts'" do
+        tree = TodoistQuerynaut::Parser.parse("@foo & today")
+        expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Intersection)
+        expect(tree.children.size).to eq(2)
+        expect(tree.children[0]).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
+        expect(tree.children[0].value).to eq("foo")
+        expect(tree.children[1]).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery)
+        expect(tree.children[1].value).to eq("today")
+      end
+
+
+      it "should support intersections of multiple parts" do
+        tree = TodoistQuerynaut::Parser.parse("@foo & @bar & @here & @there")
+        expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Intersection)
+        expect(tree.children.size).to eq(4)
+        tree.children.each { |node| expect(node).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery) }
+      end
+    end
+
+    describe "unions" do
+      it "should support unions of two labels'" do
+        tree = TodoistQuerynaut::Parser.parse("@foo | @bar")
+        expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Union)
+        expect(tree.children[0]).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
+        expect(tree.children[0].value).to eq("foo")
+        expect(tree.children[1]).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
+        expect(tree.children[1].value).to eq("bar")
+      end
+
+      it "should support unions of two different query parts'" do
+        tree = TodoistQuerynaut::Parser.parse("@foo | today")
+        expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Union)
+        expect(tree.children.size).to eq(2)
+        expect(tree.children[0]).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
+        expect(tree.children[0].value).to eq("foo")
+        expect(tree.children[1]).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery)
+        expect(tree.children[1].value).to eq("today")
+      end
+
+      it "should support unions of multiple parts" do
+        tree = TodoistQuerynaut::Parser.parse("@foo | @bar | @here | @there")
+        expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Union)
+        expect(tree.children.size).to eq(4)
+        tree.children.each { |node| expect(node).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery) }
+      end
+    end
+
+    describe "operator precedence" do
+      it "should give higher precedence to intersection" do
+        tree = TodoistQuerynaut::Parser.parse("p1 & p1 | p4")
+        expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Union)
+        expect(tree.children[0]).to be_a(TodoistQuerynaut::TodoistQuery::Intersection)
+      end
+
+      it "should give higher precedence to intersection (2)" do
+        tree = TodoistQuerynaut::Parser.parse("p4 | p1 & p1")
+        expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Union)
+        expect(tree.children[1]).to be_a(TodoistQuerynaut::TodoistQuery::Intersection)
+      end
+
+      it "should give even higher precedence to parentheses" do
+        tree = TodoistQuerynaut::Parser.parse("p1 & (p1 | p4)")
+        expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Intersection)
+        expect(tree.children[1]).to be_a(TodoistQuerynaut::TodoistQuery::Union)
+      end
+
+      it "should give even higher precedence to parentheses (2)" do
+        tree = TodoistQuerynaut::Parser.parse("(p1 | p4) & p2")
+        expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Intersection)
+        expect(tree.children[0]).to be_a(TodoistQuerynaut::TodoistQuery::Union)
+      end
+    end
+
   end
 end
