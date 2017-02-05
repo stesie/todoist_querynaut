@@ -90,4 +90,22 @@ describe "#parse" do
     end
   end
 
+  describe "label queries" do
+    it "should parse '@foo'" do
+      tree = TodoistQuerynaut::Parser.parse("@foo")
+      expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
+      expect(tree.value).to eq("foo")
+    end
+
+    it "should parse '@rspec'" do
+      tree = TodoistQuerynaut::Parser.parse("@rspec")
+      expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
+      expect(tree.value).to eq("rspec")
+    end
+
+    it "should parse 'no labels'" do
+      tree = TodoistQuerynaut::Parser.parse("no labels")
+      expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::NoLabelsQuery)
+    end
+  end
 end

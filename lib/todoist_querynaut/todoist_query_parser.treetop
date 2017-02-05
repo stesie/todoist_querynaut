@@ -49,7 +49,11 @@ module TodoistQuerynaut
     end
 
     rule label_query
-      '@' [\w]+ <LabelQuery>
+      '@' [\w]+ <LabelQuery> {
+        def value
+          input[1..-1]
+        end
+      }
     end
 
     rule no_labels_query
