@@ -12,7 +12,7 @@ module TodoistQuerynaut
 
     class Union < SetExpressionNode
       def run_query(todoist)
-        children.map{|child| child.run_query todoist}.flatten
+        children.map{|child| child.run_query todoist}.flatten.uniq{|item| item["id"]}
       end
     end
 
