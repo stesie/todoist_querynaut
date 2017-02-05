@@ -17,6 +17,10 @@ module TodoistQuerynaut
     end
 
     class Intersection < SetExpressionNode
+      def run_query(todoist)
+        acc = children[0].run_query todoist
+        children.drop(1).inject(acc) {|acc,child| acc & (child.run_query todoist)}
+      end
     end
 
     class LiteralQuery < Treetop::Runtime::SyntaxNode
