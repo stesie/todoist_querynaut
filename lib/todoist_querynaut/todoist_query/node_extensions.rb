@@ -20,6 +20,10 @@ module TodoistQuerynaut
       def value
         text_value
       end
+
+      def get_query
+        value
+      end
     end
 
     class NDaysQuery < Treetop::Runtime::SyntaxNode
