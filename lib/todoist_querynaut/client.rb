@@ -4,9 +4,12 @@ module TodoistQuerynaut
       @todoist = todoist
     end
 
-    def execute_query(query)
-      query_string = query.get_query
-      @todoist.query.search([query_string])[query_string].data
+    def search(query)
+      # Todoist doesn't always set "query" on the results, hence we cannot
+      # search(value)[value] here, as ruby-todoist-api Gem then assigns "nil"
+      # as the hash's key.  Instead we do .first.last, to get the value of the
+      # first hash entry
+      @todoist.query.search(query).first.last.data
     end
 
   end

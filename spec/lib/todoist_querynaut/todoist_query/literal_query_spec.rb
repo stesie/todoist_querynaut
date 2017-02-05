@@ -19,8 +19,8 @@ describe TodoistQuerynaut::TodoistQuery::LiteralQuery do
 
       stub_request(:post, "https://todoist.com/API/v6/query").
         with(:body => {"queries" => "[\"today\"]", "token" => "some_token"}).
-        to_return(:status => 200, :body => json_response_raw("query_today"), :headers => {}) 
-      result = literal_query.run_query Todoist::Client.new("some_token")
+        to_return(:status => 200, :body => json_response_raw("query_today"), :headers => {})
+      result = literal_query.run_query TodoistQuerynaut::Client.new(Todoist::Client.new("some_token"))
 
       expect(result.size).to eq(1)
       expect(result[0]["content"]).to eq("query_today_item_content")
@@ -31,8 +31,8 @@ describe TodoistQuerynaut::TodoistQuery::LiteralQuery do
 
       stub_request(:post, "https://todoist.com/API/v6/query").
         with(:body => {"queries" => "[\"overdue\"]", "token" => "some_token"}).
-        to_return(:status => 200, :body => json_response_raw("query_overdue"), :headers => {}) 
-      result = literal_query.run_query Todoist::Client.new("some_token")
+        to_return(:status => 200, :body => json_response_raw("query_overdue"), :headers => {})
+      result = literal_query.run_query TodoistQuerynaut::Client.new(Todoist::Client.new("some_token"))
 
       expect(result.size).to eq(2)
       expect(result[0]["content"]).to eq("overdue_one")
