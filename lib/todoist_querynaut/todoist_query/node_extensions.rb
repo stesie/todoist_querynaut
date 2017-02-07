@@ -31,13 +31,19 @@ module TodoistQuerynaut
       def run_query(todoist)
         todoist.search(value)
       end
-
     end
 
     class NDaysQuery < Treetop::Runtime::SyntaxNode
     end
 
     class PriorityQuery < Treetop::Runtime::SyntaxNode
+      def value
+        text_value[-1].to_i
+      end
+
+      def run_query(todoist)
+        todoist.search "p#{value}"
+      end
     end
 
     class ProjectNameQuery < Treetop::Runtime::SyntaxNode

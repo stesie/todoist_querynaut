@@ -33,11 +33,7 @@ module TodoistQuerynaut
     end
 
     rule priority_query
-      ("priority" space / "p") [1-4] <PriorityQuery> {
-        def value
-          text_value[-1].to_i
-        end
-      }
+      ("priority" space / "p") [1-4] <PriorityQuery>
     end
 
     rule project_name_query
