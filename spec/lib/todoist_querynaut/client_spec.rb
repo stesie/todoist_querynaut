@@ -16,4 +16,15 @@ describe TodoistQuerynaut::Client do
       expect(result).to eq(["content_here"])
     end
   end
+
+  describe "#all_items" do
+    it "should run a 'view all' query" do
+      stub_request(:post, "https://todoist.com/API/v6/query").
+        with(:body => {"queries" => "[\"view all\"]", "token" => "some_token"}).
+        to_return(:status => 200, :body => json_response_raw("query_view_all"), :headers => {})
+      result = TodoistQuerynaut::Client.new(Todoist::Client.new("some_token")).all_items
+
+      expect(result.size).to eq(4)
+    end
+  end
 end

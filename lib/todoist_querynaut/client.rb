@@ -12,6 +12,9 @@ module TodoistQuerynaut
       @todoist.query.search(query).first.last.data
     end
 
+    def all_items
+      search "view all"
+    end
   end
 end
 
