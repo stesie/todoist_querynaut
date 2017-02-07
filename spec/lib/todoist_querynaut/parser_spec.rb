@@ -103,14 +103,14 @@ describe "#parse" do
   describe "label queries" do
     it "should parse '@foo'" do
       tree = TodoistQuerynaut::Parser.parse("@foo")
-      expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
-      expect(tree.value).to eq("foo")
+      expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery)
+      expect(tree.value).to eq("@foo")
     end
 
     it "should parse '@rspec'" do
       tree = TodoistQuerynaut::Parser.parse("@rspec")
-      expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
-      expect(tree.value).to eq("rspec")
+      expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery)
+      expect(tree.value).to eq("@rspec")
     end
 
     it "should parse 'no labels'" do
@@ -124,18 +124,18 @@ describe "#parse" do
       it "should support intersections of two labels'" do
         tree = TodoistQuerynaut::Parser.parse("@foo & @bar")
         expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Intersection)
-        expect(tree.children[0]).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
-        expect(tree.children[0].value).to eq("foo")
-        expect(tree.children[1]).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
-        expect(tree.children[1].value).to eq("bar")
+        expect(tree.children[0]).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery)
+        expect(tree.children[0].value).to eq("@foo")
+        expect(tree.children[1]).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery)
+        expect(tree.children[1].value).to eq("@bar")
       end
 
       it "should support intersections of two different query parts'" do
-        tree = TodoistQuerynaut::Parser.parse("@foo & today")
+        tree = TodoistQuerynaut::Parser.parse("p4 & today")
         expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Intersection)
         expect(tree.children.size).to eq(2)
-        expect(tree.children[0]).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
-        expect(tree.children[0].value).to eq("foo")
+        expect(tree.children[0]).to be_a(TodoistQuerynaut::TodoistQuery::PriorityQuery)
+        expect(tree.children[0].value).to eq(4)
         expect(tree.children[1]).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery)
         expect(tree.children[1].value).to eq("today")
       end
@@ -145,7 +145,7 @@ describe "#parse" do
         tree = TodoistQuerynaut::Parser.parse("@foo & @bar & @here & @there")
         expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Intersection)
         expect(tree.children.size).to eq(4)
-        tree.children.each { |node| expect(node).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery) }
+        tree.children.each { |node| expect(node).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery) }
       end
     end
 
@@ -153,18 +153,18 @@ describe "#parse" do
       it "should support unions of two labels'" do
         tree = TodoistQuerynaut::Parser.parse("@foo | @bar")
         expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Union)
-        expect(tree.children[0]).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
-        expect(tree.children[0].value).to eq("foo")
-        expect(tree.children[1]).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
-        expect(tree.children[1].value).to eq("bar")
+        expect(tree.children[0]).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery)
+        expect(tree.children[0].value).to eq("@foo")
+        expect(tree.children[1]).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery)
+        expect(tree.children[1].value).to eq("@bar")
       end
 
       it "should support unions of two different query parts'" do
-        tree = TodoistQuerynaut::Parser.parse("@foo | today")
+        tree = TodoistQuerynaut::Parser.parse("p4 | today")
         expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Union)
         expect(tree.children.size).to eq(2)
-        expect(tree.children[0]).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery)
-        expect(tree.children[0].value).to eq("foo")
+        expect(tree.children[0]).to be_a(TodoistQuerynaut::TodoistQuery::PriorityQuery)
+        expect(tree.children[0].value).to eq(4)
         expect(tree.children[1]).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery)
         expect(tree.children[1].value).to eq("today")
       end
@@ -173,7 +173,7 @@ describe "#parse" do
         tree = TodoistQuerynaut::Parser.parse("@foo | @bar | @here | @there")
         expect(tree).to be_a(TodoistQuerynaut::TodoistQuery::Union)
         expect(tree.children.size).to eq(4)
-        tree.children.each { |node| expect(node).to be_a(TodoistQuerynaut::TodoistQuery::LabelQuery) }
+        tree.children.each { |node| expect(node).to be_a(TodoistQuerynaut::TodoistQuery::LiteralQuery) }
       end
     end
 
