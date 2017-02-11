@@ -56,6 +56,9 @@ module TodoistQuerynaut
     end
 
     class NegatedQuery < Treetop::Runtime::SyntaxNode
+      def run_query(todoist)
+        todoist.all_items - query.run_query(todoist)
+      end
     end
   end
 end
