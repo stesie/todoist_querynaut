@@ -29,20 +29,20 @@ describe TodoistQuerynaut::Client do
   end
 
   describe "#project_name_to_id" do
-    it "should resolve 'Someday Maybe' to 185594700" do
+    before :each do
       stub_request(:post, "https://todoist.com/API/v6/sync").
         with(:body => { "seq_no" => "0", "seq_no_global" => "0", "resource_types" => '["projects"]', "token" => "some_token" }).
         to_return(:status => 200, :body => json_response_raw("sync_projects_all"), :headers => {})
-      result = TodoistQuerynaut::Client.new(Todoist::Client.new("some_token")).project_name_to_id("Someday Maybe")
+      @client = TodoistQuerynaut::Client.new(Todoist::Client.new("some_token"))
+    end
+
+    it "should resolve 'Someday Maybe' to 185594700" do
+      result = @client.project_name_to_id("Someday Maybe")
       expect(result).to eq(185594700)
     end
 
     it "should raise ProjectNotFoundError for 'No Such Project'" do
-      stub_request(:post, "https://todoist.com/API/v6/sync").
-        with(:body => { "seq_no" => "0", "seq_no_global" => "0", "resource_types" => '["projects"]', "token" => "some_token" }).
-        to_return(:status => 200, :body => json_response_raw("sync_projects_all"), :headers => {})
-      client = TodoistQuerynaut::Client.new(Todoist::Client.new("some_token"))
-      expect{ client.project_name_to_id("No Such Project") }.to raise_error(ProjectNotFoundError)
+      expect{ @client.project_name_to_id("No Such Project") }.to raise_error(ProjectNotFoundError)
     end
   end
 end
