@@ -47,6 +47,9 @@ module TodoistQuerynaut
     end
 
     class ProjectNameQuery < Treetop::Runtime::SyntaxNode
+      def value
+        text_value[2..-1]
+      end
     end
 
     class LabelQuery < Treetop::Runtime::SyntaxNode

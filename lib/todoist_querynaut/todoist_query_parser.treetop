@@ -37,11 +37,7 @@ module TodoistQuerynaut
     end
 
     rule project_name_query
-      'p:' value:([\w]+) <ProjectNameQuery> {
-        def value
-          text_value[2..-1]
-        end
-      }
+      'p:' [\w]+ <ProjectNameQuery>
     end
 
     rule label_query
