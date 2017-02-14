@@ -50,6 +50,11 @@ module TodoistQuerynaut
       def value
         text_value[2..-1]
       end
+
+      def run_query(todoist)
+        project_id = todoist.project_name_to_id value
+        todoist.all_items.select{|item| item["project_id"] == project_id}
+      end
     end
 
     class LabelQuery < Treetop::Runtime::SyntaxNode
