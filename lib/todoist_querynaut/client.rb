@@ -15,6 +15,18 @@ module TodoistQuerynaut
     def all_items
       search "view all"
     end
+
+    def project_name_to_id(name)
+      projects = all_projects.select{|p| p["name"] == name}
+      raise ProjectNotFoundError if projects.empty?
+      projects.first["id"].to_i
+    end
+
+    private
+
+    def all_projects()
+      @projects ||= @todoist.projects.retrieve(["projects"])["Projects"]
+    end
   end
 end
 

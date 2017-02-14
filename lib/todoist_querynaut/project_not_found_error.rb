@@ -1,0 +1,2 @@
+class ProjectNotFoundError < RuntimeError
+end
