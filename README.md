@@ -2,6 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/todoist_querynaut.svg)](https://badge.fury.io/rb/todoist_querynaut)
 [![Build Status](https://travis-ci.org/stesie/todoist_querynaut.svg?branch=master)](https://travis-ci.org/stesie/todoist_querynaut)
+[![Coverage Status](https://coveralls.io/repos/github/stesie/todoist_querynaut/badge.svg?branch=master)](https://coveralls.io/github/stesie/todoist_querynaut?branch=master)
 
 Todoist Querynaut is a Ruby Gem that reimplements the [filter query language](https://support.todoist.com/hc/en-us/articles/205248842-Filters)
 of Todoist.
