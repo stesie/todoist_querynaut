@@ -14,7 +14,7 @@ describe TodoistQuerynaut::TodoistQuery::ProjectNameQuery do
   end
 
   describe "#run_query" do
-    it "should run a 'p4' query" do
+    it "should run a 'p:Inbox' query" do
       project_name_query = TodoistQuerynaut::TodoistQuery::ProjectNameQuery.new("p:Inbox", 0...7)
 
       stub_request(:post, "https://todoist.com/API/v6/query").
