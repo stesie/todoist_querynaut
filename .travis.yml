@@ -5,4 +5,4 @@ rvm:
 - 2.2.0
 - 2.3.0
 cache: bundler
-script: bundle exec rake
+script: bundle exec rspec
