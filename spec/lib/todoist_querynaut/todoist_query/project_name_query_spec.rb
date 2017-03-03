@@ -30,6 +30,14 @@ describe TodoistQuerynaut::TodoistQuery::ProjectNameQuery do
       expect(result.size).to eq(1)
       expect(result[0]["content"]).to eq("query_today_item_content")
     end
+
+    it "should match project names without case-sensitivity" do
+      project_name_query = TodoistQuerynaut::TodoistQuery::ProjectNameQuery.new("p:INBoX", 0...7)
+      result = project_name_query.run_query TodoistQuerynaut::Client.new(Todoist::Client.new("some_token"))
+
+      expect(result.size).to eq(1)
+      expect(result[0]["content"]).to eq("query_today_item_content")
+    end
   end
 end
 

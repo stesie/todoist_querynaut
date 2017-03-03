@@ -17,7 +17,7 @@ module TodoistQuerynaut
     end
 
     def project_name_to_id(name)
-      projects = all_projects.select{|p| p["name"] == name}
+      projects = all_projects.select{|p| p["name"].casecmp(name) == 0}
       raise ProjectNotFoundError if projects.empty?
       projects.first["id"].to_i
     end

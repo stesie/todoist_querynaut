@@ -41,6 +41,11 @@ describe TodoistQuerynaut::Client do
       expect(result).to eq(185594700)
     end
 
+    it "should resolve project names without case-sensitivity" do
+      result = @client.project_name_to_id("SomeDAY MayBE")
+      expect(result).to eq(185594700)
+    end
+
     it "should raise ProjectNotFoundError for 'No Such Project'" do
       expect{ @client.project_name_to_id("No Such Project") }.to raise_error(ProjectNotFoundError)
     end
