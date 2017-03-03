@@ -1,3 +1,11 @@
+if ENV['COVERAGE']
+  require 'simplecov'
+  SimpleCov.start 'rails'
+else
+  require 'coveralls'
+  Coveralls.wear!
+end
+
 require "todoist_querynaut"
 
 require "webmock/rspec"

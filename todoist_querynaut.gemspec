@@ -20,7 +20,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "rspec", "~> 3.4"
-  spec.add_development_dependency "simplecov", "~> 0.11.2"
+  spec.add_development_dependency "simplecov"
+  spec.add_development_dependency "coveralls"
   spec.add_development_dependency "webmock", "~> 1.17"
 
   spec.add_runtime_dependency 'ruby-todoist-api', '~> 0.3'
