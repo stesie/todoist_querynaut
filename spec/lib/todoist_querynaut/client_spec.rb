@@ -50,4 +50,19 @@ describe TodoistQuerynaut::Client do
       expect{ @client.project_name_to_id("No Such Project") }.to raise_error(ProjectNotFoundError)
     end
   end
+
+  describe "#run" do
+    before :each do
+      stub_request(:post, "https://todoist.com/API/v6/query").
+        with(:body => {"queries" => "[\"view all\"]", "token" => "some_token"}).
+        to_return(:status => 200, :body => json_response_raw("query_view_all"), :headers => {})
+      @client = TodoistQuerynaut::Client.new(Todoist::Client.new("some_token"))
+    end
+
+    it "should parse the query, execute it and return the results" do
+      result = @client.run("view all")
+      expect(result.size).to eq(4)
+    end
+  end
+
 end

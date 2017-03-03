@@ -4,6 +4,10 @@ module TodoistQuerynaut
       @todoist = todoist
     end
 
+    def run(query)
+      TodoistQuerynaut::Parser.parse(query).run_query self
+    end
+
     def search(query)
       # Todoist doesn't always set "query" on the results, hence we cannot
       # search(value)[value] here, as ruby-todoist-api Gem then assigns "nil"
