@@ -12,17 +12,13 @@ Gem::Specification.new do |spec|
   spec.description   = %q{Todoist implements its filter and query language client side, this Gem reimplements the language features against Todoist's REST API.}
 
   spec.homepage      = "https://github.com/stesie/todoist_querynaut"
-
   spec.license       = "MIT"
-
 
   spec.files         = Dir['LICENSE.txt', 'README.md', 'lib/**/*']
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = Dir['spec/**/*.rb']
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.7"
-  spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.4"
   spec.add_development_dependency "simplecov", "~> 0.11.2"
   spec.add_development_dependency "webmock", "~> 1.17"
