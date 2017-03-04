@@ -25,5 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "webmock", "~> 1.17"
 
   spec.add_runtime_dependency 'ruby-todoist-api', '~> 0.3'
-  spec.add_runtime_dependency 'treetop', '~> 1.6'
+  spec.add_runtime_dependency 'treetop', '~> 1.5'
 end
