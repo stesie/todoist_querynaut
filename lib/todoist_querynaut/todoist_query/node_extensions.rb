@@ -12,7 +12,7 @@ module TodoistQuerynaut
 
     class Union < SetExpressionNode
       def run_query(todoist)
-        children.inject [] {|acc,child| acc | (child.run_query todoist)}
+        children.inject([]) {|acc,child| acc | (child.run_query todoist)}
       end
     end
 
