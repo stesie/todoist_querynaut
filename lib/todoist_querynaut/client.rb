@@ -29,7 +29,7 @@ module TodoistQuerynaut
     private
 
     def all_projects()
-      @projects ||= @todoist.projects.retrieve(["projects"])["Projects"]
+      @projects ||= @todoist.projects.retrieve(["projects"])["projects"]
     end
   end
 end
