@@ -15,10 +15,10 @@ describe TodoistQuerynaut::TodoistQuery::ProjectNameQuery do
 
   describe "#run_query" do
     before :each do
-      stub_request(:post, "https://todoist.com/API/v6/query").
+      stub_request(:post, "https://todoist.com/API/v7/query").
         with(:body => {"queries" => "[\"view all\"]", "token" => "some_token"}).
         to_return(:status => 200, :body => json_response_raw("query_view_all"), :headers => {})
-      stub_request(:post, "https://todoist.com/API/v6/sync").
+      stub_request(:post, "https://todoist.com/API/v7/sync").
         with(:body => { "seq_no" => "0", "seq_no_global" => "0", "resource_types" => '["projects"]', "token" => "some_token" }).
         to_return(:status => 200, :body => json_response_raw("sync_projects_all"), :headers => {})
     end

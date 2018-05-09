@@ -19,7 +19,7 @@ describe TodoistQuerynaut::Client do
 
   describe "#all_items" do
     it "should run a 'view all' query" do
-      stub_request(:post, "https://todoist.com/API/v6/query").
+      stub_request(:post, "https://todoist.com/API/v7/query").
         with(:body => {"queries" => "[\"view all\"]", "token" => "some_token"}).
         to_return(:status => 200, :body => json_response_raw("query_view_all"), :headers => {})
       result = TodoistQuerynaut::Client.new(Todoist::Client.new("some_token")).all_items
@@ -30,7 +30,7 @@ describe TodoistQuerynaut::Client do
 
   describe "#project_name_to_id" do
     before :each do
-      stub_request(:post, "https://todoist.com/API/v6/sync").
+      stub_request(:post, "https://todoist.com/API/v7/sync").
         with(:body => { "seq_no" => "0", "seq_no_global" => "0", "resource_types" => '["projects"]', "token" => "some_token" }).
         to_return(:status => 200, :body => json_response_raw("sync_projects_all"), :headers => {})
       @client = TodoistQuerynaut::Client.new(Todoist::Client.new("some_token"))
@@ -53,7 +53,7 @@ describe TodoistQuerynaut::Client do
 
   describe "#run" do
     before :each do
-      stub_request(:post, "https://todoist.com/API/v6/query").
+      stub_request(:post, "https://todoist.com/API/v7/query").
         with(:body => {"queries" => "[\"view all\"]", "token" => "some_token"}).
         to_return(:status => 200, :body => json_response_raw("query_view_all"), :headers => {})
       @client = TodoistQuerynaut::Client.new(Todoist::Client.new("some_token"))

@@ -17,7 +17,7 @@ describe TodoistQuerynaut::TodoistQuery::PriorityQuery do
     it "should run a 'p4' query" do
       priority_query = TodoistQuerynaut::TodoistQuery::PriorityQuery.new("p4", 0...2)
 
-      stub_request(:post, "https://todoist.com/API/v6/query").
+      stub_request(:post, "https://todoist.com/API/v7/query").
         with(:body => {"queries" => "[\"p4\"]", "token" => "some_token"}).
         to_return(:status => 200, :body => json_response_raw("query_p4"), :headers => {})
       result = priority_query.run_query TodoistQuerynaut::Client.new(Todoist::Client.new("some_token"))

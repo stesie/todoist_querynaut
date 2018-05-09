@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "todoist_querynaut"
-  spec.version       = '0.1.2'
+  spec.version       = '0.1.3'
   spec.authors       = ["Stefan Siegl"]
   spec.email         = ["stesie@brokenpipe.de"]
 
@@ -24,6 +24,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "coveralls"
   spec.add_development_dependency "webmock", "~> 1.17"
 
-  spec.add_runtime_dependency 'ruby-todoist-api', '~> 0.3'
+  spec.add_runtime_dependency 'ruby-todoist-api-v7', '~> 1.0'
   spec.add_runtime_dependency 'treetop', '~> 1.5'
 end

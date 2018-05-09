@@ -8,7 +8,7 @@ describe TodoistQuerynaut::TodoistQuery::Intersection do
         TodoistQuerynaut::TodoistQuery::LiteralQuery.new("today", 0...5)
       ])
 
-      stub_request(:post, "https://todoist.com/API/v6/query").
+      stub_request(:post, "https://todoist.com/API/v7/query").
         with(:body => {"queries" => "[\"today\"]", "token" => "some_token"}).
         to_return(:status => 200, :body => json_response_raw("query_today"), :headers => {})
       result = intersection_query.run_query TodoistQuerynaut::Client.new(Todoist::Client.new("some_token"))
@@ -22,10 +22,10 @@ describe TodoistQuerynaut::TodoistQuery::Intersection do
         TodoistQuerynaut::TodoistQuery::LiteralQuery.new("overdue_one", 0...11)
       ])
 
-      stub_request(:post, "https://todoist.com/API/v6/query").
+      stub_request(:post, "https://todoist.com/API/v7/query").
         with(:body => {"queries" => "[\"overdue_one\"]", "token" => "some_token"}).
         to_return(:status => 200, :body => json_response_raw("query_overdue_one"), :headers => {})
-      stub_request(:post, "https://todoist.com/API/v6/query").
+      stub_request(:post, "https://todoist.com/API/v7/query").
         with(:body => {"queries" => "[\"overdue\"]", "token" => "some_token"}).
         to_return(:status => 200, :body => json_response_raw("query_overdue"), :headers => {})
       result = intersection_query.run_query TodoistQuerynaut::Client.new(Todoist::Client.new("some_token"))
