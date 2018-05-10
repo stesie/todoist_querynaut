@@ -39,7 +39,7 @@ And then execute:
 
 ```ruby
 querynaut = TodoistQuerynaut::Client.new(Todoist::Client.new("your_api_token"))
-result = @client.run("(overdue | today) & #work")
+result = querynaut.run("(overdue | today) & #work")
 ```
 
 ## Contributing
